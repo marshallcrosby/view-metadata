@@ -1,5 +1,5 @@
 /*!
-    * View metadata v1.0.0
+    * View metadata v1.0.1
     * Easy to implement tool that displays a pages metadata.
     *
     * Copyright 2021-2022 Marshall Crosby
@@ -27,6 +27,20 @@
             `;
             parent.appendChild(entry);
         }
+    }
+
+    const scriptLinkage = document.getElementById('view-metadata-js') || document.querySelector('script[src*=view-metadata]');
+    const param = {
+        btnX: null,
+        btnY: null,
+        btnZ: null
+    }
+
+    if (scriptLinkage) {
+        const urlParam = new URLSearchParams(scriptLinkage.getAttribute('src').split('?')[1]);
+        param.btnX = urlParam.get('btn-x');
+        param.btnY = urlParam.get('btn-y');
+        param.btnZ = urlParam.get('btn-z');
     }
 
     const metaElements = document.head.querySelectorAll('meta');
@@ -146,6 +160,20 @@
         document.body.appendChild(viewMetadataControls);
 
         const modalShowBtn = viewMetadataControls.querySelector('.view-metadata-modal-btn');
+        
+        if (param.btnX !== null) {
+            modalShowBtn.style.right = 'auto';
+            modalShowBtn.style.left = param.btnX;
+        }
+        
+        if (param.btnY !== null) {
+            modalShowBtn.style.top = param.btnY;
+        }
+        
+        if (param.btnZ !== null) {
+            modalShowBtn.style.zIndex = param.btnZ;
+        }
+
         modalShowBtn.addEventListener('click', () => {
             modalShow();
         });
