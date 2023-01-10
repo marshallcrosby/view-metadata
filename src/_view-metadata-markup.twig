@@ -1,6 +1,6 @@
 <div class="view-metadata__content">
     <div class="view-metadata__header">
-        <div class="view-metadata__title" id="viewMetadataModalTitle" role="heading" aria-level="2">
+        <div class="view-metadata__title" style="margin-bottom: 0;" id="viewMetadataModalTitle" role="heading" aria-level="2">
             Page metadata
         </div>
         <div aria-label="Close" class="view-metadata__close-btn view-metadata--fancy-hover" role="button" tabindex="0">
@@ -11,11 +11,37 @@
         </div>
     </div>
     <div class="view-metadata__body view-metadata-styled-scrollbar">
-        <section class="view-metadata__breakdown-view-section">
-            <h3 class="view-metadata__title" aria-level="3">Breakdown view:</h3>
+        <section class="view-metadata__section view-metadata__breakdown-view-section" hidden>
+            <div class="view-metadata__title" role="heading" aria-level="3">Meta tags</div>
         </section>
-        <section class="view-metadata__code-view-section">
-            <h3 class="view-metadata__title" aria-level="3">Code view:</h3>
+
+        <div class="view-metadata__hr"></div>
+        
+        <section class="view-metadata__section view-metadata__open-graph-section" hidden>
+            <div class="view-metadata__title" role="heading" aria-level="3">Open Graph</div>
+            
+            <p class="view-metadata__required">
+                <span class="view-metadata__title" role="heading" aria-level="4">Required:</span>
+                og:title, og:type, og:image, og:url
+            </p>
+            
+            <p class="view-metadata__missing" hidden>
+                <span class="view-metadata__title" role="heading" aria-level="4" style="margin-right: 5px">Missing required:</span>
+            </p>
+
+            <br>
+        </section>
+
+        <div class="view-metadata__hr"></div>
+        
+        <section class="view-metadata__section view-metadata__schema-section" hidden>
+            <h3 class="view-metadata__title" aria-level="3">Schema</h3>
+        </section>
+
+        <div class="view-metadata__hr"></div>
+        
+        <section class="view-metadata__section view-metadata__code-view-section" hidden>
+            <h3 class="view-metadata__title" aria-level="3">Code view</h3>
         </section>
     </div>
 </div>
