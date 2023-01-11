@@ -1,9 +1,9 @@
 /*!
-    * View metadata v1.2.1
+    * View metadata v1.2.2
     * Easy to implement tool that displays a pages metadata.
     *
-    * Copyright 2021-2022 Marshall Crosby
-    * https://marshallcrosby.com
+    * Copyright 2021-2022 Blend Interactive
+    * https://blendinteractive.com
 */
 
 (function() {
@@ -234,6 +234,7 @@
         ----------------------------------------------- */
 
         // Parse json to html ul
+        // Special thanks to John Pavek https://github.com/nhawdge
         function objectToList(obj) {
             var output = '';
             
