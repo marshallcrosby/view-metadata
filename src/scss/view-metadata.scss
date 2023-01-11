@@ -355,7 +355,7 @@
 .view-metadata-modal-btn {
     position: absolute;
     top: 10px;
-    right: 10px;
+    left: 10px;
 
     display: flex;
     align-items: center;
@@ -375,6 +375,7 @@
     font-family: var(--vmd-ff-code);
     font-size: 12px;
     line-height: 0;
+    z-index: 1000;
 
     &:hover {
         box-shadow: none;
