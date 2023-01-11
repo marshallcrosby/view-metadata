@@ -1,12 +1,12 @@
 /*!
-    * View metadata v1.2.3
+    * View metadata v1.2.4
     * Easy to implement tool that displays a pages metadata.
     *
     * Copyright 2021-2022 Blend Interactive
     * https://blendinteractive.com
 */
 
-(function() {
+(function () {
     'use strict';
 
 
@@ -16,7 +16,7 @@
 
     // Set multiple attributes on an element
     Element.prototype.setAttributes = function (attrs) {
-        for(let key in attrs) {
+        for (let key in attrs) {
             this.setAttribute(key, attrs[key]);
         }
     };
@@ -25,7 +25,7 @@
     function createBreakdownEntry(attrName, attr, parent, cloneThisNode) {
         if (attr) {
             const entry = cloneThisNode.cloneNode(true);
-            
+
             entry.innerHTML = /* html */`
                 <div class="view-metadata-entry__attr-name">${attrName}</div>
                 <div class="view-metadata-entry__attr-value">${attr.toString()}</div>
@@ -44,7 +44,7 @@
     // Unwrap function
     function unwrap(wrapper) {
         const docFrag = document.createDocumentFragment();
-        
+
         while (wrapper.firstChild) {
             const child = wrapper.removeChild(wrapper.firstChild);
             docFrag.appendChild(child);
@@ -58,12 +58,12 @@
         Params
     ----------------------------------------------- */
 
-    const scriptLinkage = document.getElementById('view-metadata-js') || document.querySelector('script[src*=view-metadata]');
-    const param = {
+    var scriptLinkage = document.querySelector('script[src*=view-metadata]');
+    let param = {
         btnX: null,
         btnY: null,
         btnZ: null
-    }
+    };
 
     if (scriptLinkage) {
         const urlParam = new URLSearchParams(scriptLinkage.getAttribute('src').split('?')[1]);
@@ -73,7 +73,7 @@
     }
 
     const metaElements = document.head.querySelectorAll('meta');
-    
+
     if (metaElements) {
 
         /* -----------------------------------------------
@@ -99,7 +99,7 @@
 
         const modalEl = document.createElement('div');
         modalEl.classList.add('view-metadata');
-        
+
         modalEl.setAttributes({
             'id': 'viewMetadataModal',
             'aria-labelledby': 'viewMetadataModalTitle',
@@ -122,47 +122,47 @@
         document.body.appendChild(modalEl);
 
         metaElements.forEach((item) => {
-    
+
             // Entries element
             const metaEntry = document.createElement('div');
             metaEntry.classList.add('view-metadata-entry');
             document.body.appendChild(metaEntry);
-    
+
             // Entry title
             const metaEntryTitle = document.createElement('span');
             metaEntryTitle.classList.add('view-metadata-entry__tag');
             metaEntryTitle.innerHTML = '&#60;meta&#62;';
             metaEntry.appendChild(metaEntryTitle);
-    
+
             // Create object from node attibute names and values
             const attrs = item.getAttributeNames().reduce((acc, name) => {
                 return {...acc, [name]: item.getAttribute(name)};
             },{});
-    
+
             // Entry element
             const entryHtml = document.createElement('div');
             entryHtml.classList.add('view-metadata-entry__item');
-    
-    
+
+
             /* -----------------------------------------------
                 Apply attribute(s) name and value if defined
             ----------------------------------------------- */
-    
+
             // Charset
             createBreakdownEntry('charset', attrs.charset, metaEntry, entryHtml);
-    
+
             // Name
             createBreakdownEntry('name', attrs.name, metaEntry, entryHtml);
-    
+
             // Property
             createBreakdownEntry('property', attrs.property, metaEntry, entryHtml);
-    
+
             // Content
             createBreakdownEntry('content', attrs.content, metaEntry, entryHtml);
-    
+
             // Http-equiv
             createBreakdownEntry('http-equiv', attrs.httpEquiv, metaEntry, entryHtml);
-    
+
             // Itemprop
             createBreakdownEntry('itemprop', attrs.itemprop, metaEntry, entryHtml);
         });
@@ -174,7 +174,7 @@
         if (viewMetaEntryElement.length) {
             viewMetaMetaSection.removeAttribute('hidden');
         }
-    
+
         viewMetaEntryElement.forEach((item) => {
             viewMetaMetaSection.appendChild(item);
         });
@@ -189,15 +189,15 @@
 
         if (openGraphEntriesEl.length) {
             openGraphSectionEl.removeAttribute('hidden');
-            
+
             openGraphEntriesEl.forEach((item) => {
                 const ogEntry = item.cloneNode(true);
                 ogEntry.querySelectorAll('.view-metadata-entry__attr-name, .view-metadata-entry__tag').forEach(item => item.remove());
                 ogEntry.querySelectorAll('.view-metadata-entry__item').forEach(item => unwrap(item));
-    
+
                 openGraphSectionEl.appendChild(ogEntry);
             });
-    
+
             // Add class to required properties
             const openGraphRequiredArr = [
                 'og:title',
@@ -205,10 +205,10 @@
                 'og:image',
                 'og:url'
             ];
-    
+
             openGraphRequiredArr.forEach((item) => {
                 const requiredEntryEl = openGraphSectionEl.querySelector(`[data-view-md-item-property="${item}"]`);
-    
+
                 if (requiredEntryEl) {
                     requiredEntryEl
                         .classList
@@ -222,12 +222,12 @@
                     missingList.appendChild(missingEntry);
                 }
             });
-    
+
             // Sort required entries to top of list
             const notRequiredOpenGraphEl = openGraphSectionEl.querySelectorAll('.view-metadata-entry:not(.view-metadata-entry--required)');
             notRequiredOpenGraphEl.forEach(item => openGraphSectionEl.appendChild(item));
         }
-        
+
 
         /* -----------------------------------------------
             Render schema section
@@ -237,11 +237,11 @@
         // Special thanks to John Pavek https://github.com/nhawdge
         function objectToList(obj) {
             var output = '';
-            
+
             for (let key of Object.keys(obj)) {
                 output += `
                     <li class="view-metadata-schema-list__item">
-                        <span class="view-metadata-entry__attr-name">${key}:</span> 
+                        <span class="view-metadata-entry__attr-name">${key}:</span>
                     `;
                 if (obj[key] instanceof Object) {
                     output += `<ul class="view-metadata-schema-list"> ${objectToList(obj[key])}</ul>`;
@@ -261,20 +261,20 @@
             schemaSectionEl.removeAttribute('hidden');
 
             schemaJson.forEach((item) => {
-                
+
                 // Clean up json data because for some reason it's invalid
                 const jsonString = item.innerHTML.toString().trim();
                 const validJson = '{' + jsonString.substring(
                     jsonString.indexOf('{') + 1, 
                     jsonString.lastIndexOf('}')
                 ) + '}';
-    
+
                 const data = JSON.parse(validJson);
 
                 const schemaOut = objectToList(data);
                 const schemaListEl = document.createElement('ul');
 
-                schemaListEl.classList.add('view-metadata-schema-list')
+                schemaListEl.classList.add('view-metadata-schema-list'); 
                 schemaListEl.innerHTML = schemaOut;
                 schemaSectionEl.appendChild(schemaListEl);
             });
@@ -302,16 +302,16 @@
         document.body.appendChild(viewMetadataControls);
 
         const modalShowBtn = viewMetadataControls.querySelector('.view-metadata-modal-btn');
-        
+
         if (param.btnX !== null) {
             modalShowBtn.style.right = 'auto';
             modalShowBtn.style.left = param.btnX;
         }
-        
+
         if (param.btnY !== null) {
             modalShowBtn.style.top = param.btnY;
         }
-        
+
         if (param.btnZ !== null) {
             modalShowBtn.style.zIndex = param.btnZ;
         }
@@ -325,7 +325,7 @@
             document.documentElement.classList.remove('js-view-metadata-modal-showing');
             focusedElementBeforeModal.focus();
         }
-        
+
         const modalCloseBtn = document.querySelector('.view-metadata__close-btn');
         modalCloseBtn.addEventListener('click', () => {
             modalHide();
@@ -342,13 +342,13 @@
         const modalContent = document.querySelectorAll('.view-metadata__content');
         modalEl.addEventListener('mousedown', function (event) {
             let isClickInside = false;
-            
+
             modalContent.forEach((item) => {
                 if (item.contains(event.target)) {
                     isClickInside = true;
                 }
             });
-            
+
             if (!isClickInside && document.documentElement.classList.contains('js-view-metadata-modal-showing')) {
                 modalHide();
             }
@@ -358,13 +358,13 @@
         let focusedElementBeforeModal;
         function modalShow() {
             document.documentElement.classList.add('js-view-metadata-modal-showing');
-            
+
             // Save current focus
             focusedElementBeforeModal = document.activeElement;
 
             // Listen for and trap the keyboard
             modalEl.addEventListener('keydown', trapTabKey);
-            
+
             // Find all focusable children
             let focusableElementsString =`
                 a[href],
@@ -380,20 +380,20 @@
                 [contenteditable],
                 [role="button"]
             `;
-                
+
             let focusableElements = modalEl.querySelectorAll(focusableElementsString);
-            
+
             // Convert NodeList to Array
             focusableElements = Array.prototype.slice.call(focusableElements);
 
             const firstTabStop = focusableElements[0];
             const lastTabStop = focusableElements[focusableElements.length - 1];
-            
+
             // Set initial focus on the modal
             modalEl.focus();
-            
+
             function trapTabKey(event) {
-                
+
                 // Check for TAB key press
                 if (event.keyCode === 9) {
 
@@ -420,7 +420,7 @@
             Make div(s) with role=button act like an
             actual button for a11y reasons
         ----------------------------------------------- */
-        
+
         document.querySelectorAll('.view-metadata__close-btn, .view-metadata-modal-btn').forEach((item) => {
             item.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter' || event.code === 'Space') {
@@ -430,7 +430,10 @@
             });
         });
     }
+
+    // javascript:var v = '1.2.3'; var s = document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src=`https://cdn.jsdelivr.net/gh/marshallcrosby/view-metadata@${v}/dist/js/view-metadata.min.js`;void(0);s.addEventListener('load',function(){document.querySelector('.view-metadata-modal-btn').click()});
 })();
+
 
 
 

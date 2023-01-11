@@ -1,12 +1,12 @@
 /*!
-    * View metadata v1.2.3
+    * View metadata v1.2.4
     * Easy to implement tool that displays a pages metadata.
     *
     * Copyright 2021-2022 Blend Interactive
     * https://blendinteractive.com
 */
 
-(function() {
+(function () {
     'use strict';
 
 
@@ -16,7 +16,7 @@
 
     // Set multiple attributes on an element
     Element.prototype.setAttributes = function (attrs) {
-        for(let key in attrs) {
+        for (let key in attrs) {
             this.setAttribute(key, attrs[key]);
         }
     };
@@ -25,7 +25,7 @@
     function createBreakdownEntry(attrName, attr, parent, cloneThisNode) {
         if (attr) {
             const entry = cloneThisNode.cloneNode(true);
-            
+
             entry.innerHTML = /* html */`
                 <div class="view-metadata-entry__attr-name">${attrName}</div>
                 <div class="view-metadata-entry__attr-value">${attr.toString()}</div>
@@ -44,7 +44,7 @@
     // Unwrap function
     function unwrap(wrapper) {
         const docFrag = document.createDocumentFragment();
-        
+
         while (wrapper.firstChild) {
             const child = wrapper.removeChild(wrapper.firstChild);
             docFrag.appendChild(child);
@@ -58,12 +58,12 @@
         Params
     ----------------------------------------------- */
 
-    const scriptLinkage = document.getElementById('view-metadata-js') || document.querySelector('script[src*=view-metadata]');
-    const param = {
+    var scriptLinkage = document.querySelector('script[src*=view-metadata]');
+    let param = {
         btnX: null,
         btnY: null,
         btnZ: null
-    }
+    };
 
     if (scriptLinkage) {
         const urlParam = new URLSearchParams(scriptLinkage.getAttribute('src').split('?')[1]);
@@ -73,7 +73,7 @@
     }
 
     const metaElements = document.head.querySelectorAll('meta');
-    
+
     if (metaElements) {
 
         /* -----------------------------------------------
@@ -84,7 +84,7 @@
         textStyle.setAttribute('id', 'viewMetaDataStyle');
 
         // Import compressed styles as a string
-        const textStyleString = `@charset "UTF-8";:root{--vmd-ff-primary:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";--vmd-ff-code:Menlo,Consolas,"DejaVu Sans Mono",monospace;--vmd-spacing-outer-modal:10px;--vmd-border-radius-common:10px;--vmd-modal-z:1000000;--vmd-body-size:13px;--vmd-color-border:rgba(0,0,0,.08);--vmd-color-text:#333;--vmd-color-gray-100:#ededed;--vmd-color-gray-200:#dedede}.view-metadata-styled-scrollbar{scrollbar-color:rgba(0,0,0,.25) transparent;scrollbar-width:thin}.view-metadata-styled-scrollbar::-webkit-scrollbar-corner{background-color:transparent}.view-metadata-styled-scrollbar::-webkit-scrollbar{width:7px;height:7px}.view-metadata-styled-scrollbar::-webkit-scrollbar-track{background-color:transparent}.view-metadata-styled-scrollbar::-webkit-scrollbar-thumb{border-radius:4px;outline:0;background-color:rgba(0,0,0,.25)}.js-view-metadata-modal-showing{overflow:hidden;height:100vh;scroll-behavior:smooth}.js-view-metadata-modal-showing .view-metadata{display:block;overflow-x:hidden;overflow-y:auto}.view-metadata{position:fixed;z-index:var(--vmd-modal-z);top:0;left:0;display:none;overflow-x:hidden;overflow-y:auto;width:100%;height:100%;outline:0;background-color:rgba(0,0,0,.3);font-family:var(--vmd-ff-primary);line-height:normal}.view-metadata:focus{outline:0}.view-metadata *{box-sizing:border-box;color:var(--vmd-color-text);border:0;border-radius:0;-webkit-font-smoothing:auto;-moz-osx-font-smoothing:auto}.view-metadata .view-metadata__dialog{position:relative;display:flex;align-items:center;width:auto;max-width:900px;min-height:calc(100% - var(--vmd-spacing-outer-modal) * 2);margin:10px auto;padding:0 var(--vmd-spacing-outer-modal)}.view-metadata .view-metadata__content{position:relative;display:flex;overflow:hidden;flex-direction:column;width:100%;pointer-events:auto;border-radius:var(--vmd-border-radius-common);outline:0;background-color:#fff;background-clip:padding-box;box-shadow:0 19px 38px rgba(0,0,0,.4);font-size:var(--vmd-body-size)}.view-metadata .view-metadata__body{overflow:auto;height:490px;padding:15px}.view-metadata .view-metadata__header{display:flex;align-items:center;height:53px;padding:10px 15px;border-bottom:1px solid var(--vmd-color-border);font-size:1.16666em}.view-metadata .view-metadata__title{margin-top:0;margin-bottom:10px;font-size:18px;font-weight:700}.view-metadata .view-metadata__title[aria-level="3"]{font-size:15px}.view-metadata .view-metadata__title[aria-level="4"]{font-size:var(--vmd-body-size)}.view-metadata .view-metadata__missing,.view-metadata .view-metadata__required{font-size:var(--vmd-body-size);margin-bottom:10px}.view-metadata .view-metadata__missing strong:after{content:", ";font-weight:400}.view-metadata .view-metadata__missing strong:last-child:after{content:""}.view-metadata .view-metadata__close-btn{display:flex;align-items:center;justify-content:center;width:30px;height:30px;margin-left:auto;padding:0;cursor:pointer;border-radius:50%;background-color:transparent}.view-metadata .view-metadata__close-btn svg{width:.9em;height:.9em;pointer-events:none}.view-metadata .view-metadata__close-btn svg rect{fill:currentColor}.view-metadata .view-metadata__close-btn:hover{background-color:var(--vmd-color-gray-100)}.view-metadata .view-metadata__body{font-size:var(--vmd-body-size)}.view-metadata .view-metadata__section{margin-bottom:25px}.view-metadata .view-metadata__hr{height:1px;border-top:1px solid var(--vmd-color-border);margin:0 0 20px 0}.view-metadata [hidden]+.view-metadata__hr{display:none}.view-metadata .view-metadata__code-view-section{display:none}.view-metadata .view-metadata__schema-section .view-metadata-entry{padding-left:0;margin-bottom:0;width:calc(100% - 15px);margin-left:auto}.view-metadata .view-metadata__schema-section .view-metadata-entry__item{margin-bottom:10px}.view-metadata .view-metadata__schema-section .view-metadata-entry__attr-name{flex:0 0 120px;width:120px}.view-metadata .view-metadata-schema-list{list-style-type:none;font-size:var(--vmd-body-size);padding-left:15px}.view-metadata .view-metadata-schema-list:not(:last-child){margin-bottom:30px}.view-metadata .view-metadata-schema-list .view-metadata-schema-list{margin-top:10px;margin-bottom:0}.view-metadata .view-metadata-schema-list__item{margin-bottom:10px}.view-metadata .view-metadata__open-graph-section .view-metadata-entry{flex-direction:row;padding-left:15px}.view-metadata .view-metadata__open-graph-section .view-metadata-entry--required:before{content:"✓";color:#9acd32;display:inline-block;width:0;overflow:visible;text-indent:-15px}.view-metadata .view-metadata__open-graph-section .view-metadata-entry__attr-value:first-child{flex:0 0 120px;width:120px;font-weight:700}.view-metadata .view-metadata-entry{position:relative;display:flex;flex-direction:column;margin-bottom:10px;padding-left:50px}.view-metadata .view-metadata-entry.view-metadata-entry--code{padding-left:0;border:0;font-family:var(--vmd-ff-code);font-size:12px;font-weight:500;line-height:1.3}.view-metadata .view-metadata-entry__tag{position:absolute;top:2px;left:0;width:40px;opacity:.65;font-size:11px}.view-metadata .view-metadata-entry__item{display:flex;margin-bottom:2px}.view-metadata .view-metadata-entry__attr-name{flex:0 0 70px;width:70px;font-weight:700}.view-metadata-overlay-controls{position:static;overflow:visible;width:1px;height:1px}.view-metadata-modal-btn{position:absolute;top:10px;left:10px;display:flex;align-items:center;justify-content:center;width:60px;height:24px;padding:0;cursor:pointer;border:1px solid var(--vmd-color-gray-200);border-radius:4px;background-color:var(--vmd-color-gray-100);box-shadow:1px 1px 5px rgba(0,0,0,.2);font-family:var(--vmd-ff-code);font-size:12px;line-height:0;z-index:1000}.view-metadata-modal-btn:hover{box-shadow:none}
+        const textStyleString = `@charset "UTF-8";:root{--vmd-ff-primary:"Segoe UI","Helvetica Neue",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";--vmd-ff-code:Menlo,Consolas,"DejaVu Sans Mono",monospace;--vmd-spacing-outer-modal:10px;--vmd-border-radius-common:10px;--vmd-modal-z:1000000;--vmd-body-size:13px;--vmd-color-border:rgba(0,0,0,.08);--vmd-color-text:#333;--vmd-color-gray-100:#ededed;--vmd-color-gray-200:#dedede}.view-metadata-styled-scrollbar{scrollbar-color:rgba(0,0,0,.25) transparent;scrollbar-width:thin}.view-metadata-styled-scrollbar::-webkit-scrollbar-corner{background-color:transparent}.view-metadata-styled-scrollbar::-webkit-scrollbar{width:7px;height:7px}.view-metadata-styled-scrollbar::-webkit-scrollbar-track{background-color:transparent}.view-metadata-styled-scrollbar::-webkit-scrollbar-thumb{border-radius:4px;outline:0;background-color:rgba(0,0,0,.25)}.js-view-metadata-modal-showing{overflow:hidden;height:100vh;scroll-behavior:smooth}.js-view-metadata-modal-showing .view-metadata{display:block;overflow-x:hidden;overflow-y:auto}.view-metadata{position:fixed;z-index:var(--vmd-modal-z);top:0;left:0;display:none;overflow-x:hidden;overflow-y:auto;width:100%;height:100%;outline:0;background-color:rgba(0,0,0,.3);font-family:var(--vmd-ff-primary);line-height:normal}.view-metadata:focus{outline:0}.view-metadata *{box-sizing:border-box;color:var(--vmd-color-text);border:0;border-radius:0;-webkit-font-smoothing:auto;-moz-osx-font-smoothing:auto}.view-metadata .view-metadata__dialog{position:relative;display:flex;align-items:center;width:auto;max-width:900px;min-height:calc(100% - var(--vmd-spacing-outer-modal) * 2);margin:10px auto;padding:0 var(--vmd-spacing-outer-modal)}.view-metadata .view-metadata__content{position:relative;display:flex;overflow:hidden;flex-direction:column;width:100%;pointer-events:auto;border-radius:var(--vmd-border-radius-common);outline:0;background-color:#fff;background-clip:padding-box;box-shadow:0 19px 38px rgba(0,0,0,.4);font-size:var(--vmd-body-size)}.view-metadata .view-metadata__body{overflow:auto;height:490px;padding:15px}.view-metadata .view-metadata__header{display:flex;align-items:center;height:53px;padding:10px 15px;border-bottom:1px solid var(--vmd-color-border);font-size:1.16666em}.view-metadata .view-metadata__title{margin-top:0;margin-bottom:10px;font-size:18px;font-weight:700}.view-metadata .view-metadata__title[aria-level="3"]{font-size:15px}.view-metadata .view-metadata__title[aria-level="4"]{font-size:var(--vmd-body-size)}.view-metadata .view-metadata__missing,.view-metadata .view-metadata__required{font-size:var(--vmd-body-size);margin-bottom:10px}.view-metadata .view-metadata__missing strong:after{content:", ";font-weight:400}.view-metadata .view-metadata__missing strong:last-child:after{content:""}.view-metadata .view-metadata__close-btn{display:flex;align-items:center;justify-content:center;width:30px;height:30px;margin-left:auto;padding:0;cursor:pointer;border-radius:50%;background-color:transparent}.view-metadata .view-metadata__close-btn svg{width:.9em;height:.9em;pointer-events:none}.view-metadata .view-metadata__close-btn svg rect{fill:currentColor}.view-metadata .view-metadata__close-btn:hover{background-color:var(--vmd-color-gray-100)}.view-metadata .view-metadata__body{font-size:var(--vmd-body-size)}.view-metadata .view-metadata__section{margin-bottom:25px}.view-metadata .view-metadata__hr{height:1px;border-top:1px solid var(--vmd-color-border);margin:0 0 20px 0}.view-metadata [hidden]+.view-metadata__hr{display:none}.view-metadata .view-metadata__code-view-section{display:none}.view-metadata .view-metadata__schema-section .view-metadata-entry{padding-left:0;margin-bottom:0;width:calc(100% - 15px);margin-left:auto}.view-metadata .view-metadata__schema-section .view-metadata-entry__item{margin-bottom:10px}.view-metadata .view-metadata__schema-section .view-metadata-entry__attr-name{flex:0 0 120px;width:120px}.view-metadata .view-metadata-schema-list{list-style-type:none;font-size:var(--vmd-body-size);padding-left:15px}.view-metadata .view-metadata-schema-list:not(:last-child){margin-bottom:30px}.view-metadata .view-metadata-schema-list .view-metadata-schema-list{margin-top:10px;margin-bottom:0}.view-metadata .view-metadata-schema-list__item{margin-bottom:10px}.view-metadata .view-metadata__open-graph-section .view-metadata-entry{flex-direction:row;padding-left:15px}.view-metadata .view-metadata__open-graph-section .view-metadata-entry--required:before{content:"✓";color:#9acd32;display:inline-block;width:0;overflow:visible;text-indent:-15px}.view-metadata .view-metadata__open-graph-section .view-metadata-entry__attr-value:first-child{flex:0 0 120px;width:120px;font-weight:700}.view-metadata .view-metadata-entry{position:relative;display:flex;flex-direction:column;margin-bottom:10px;padding-left:50px}.view-metadata .view-metadata-entry.view-metadata-entry--code{padding-left:0;border:0;font-family:var(--vmd-ff-code);font-size:12px;font-weight:500;line-height:1.3}.view-metadata .view-metadata-entry__tag{position:absolute;top:2px;left:0;width:40px;opacity:.65;font-size:11px}.view-metadata .view-metadata-entry__item{display:flex;margin-bottom:2px}.view-metadata .view-metadata-entry__attr-name{flex:0 0 70px;width:70px;font-weight:700}.view-metadata-overlay-controls{position:static;overflow:visible;width:1px;height:1px}.view-metadata-modal-btn{position:absolute;top:10px;left:10px;display:flex;align-items:center;justify-content:center;width:60px;height:24px;padding:0;cursor:pointer;border:1px solid var(--vmd-color-gray-200);border-radius:4px;background-color:var(--vmd-color-gray-100);box-shadow:1px 1px 5px rgba(0,0,0,.2);font-family:var(--vmd-ff-code);font-size:12px;line-height:0;z-index:10000}.view-metadata-modal-btn:hover{box-shadow:none}
 `;
 
         // Apply in page styles to style tag
@@ -100,7 +100,7 @@
 
         const modalEl = document.createElement('div');
         modalEl.classList.add('view-metadata');
-        
+
         modalEl.setAttributes({
             'id': 'viewMetadataModal',
             'aria-labelledby': 'viewMetadataModalTitle',
@@ -123,47 +123,47 @@
         document.body.appendChild(modalEl);
 
         metaElements.forEach((item) => {
-    
+
             // Entries element
             const metaEntry = document.createElement('div');
             metaEntry.classList.add('view-metadata-entry');
             document.body.appendChild(metaEntry);
-    
+
             // Entry title
             const metaEntryTitle = document.createElement('span');
             metaEntryTitle.classList.add('view-metadata-entry__tag');
             metaEntryTitle.innerHTML = '&#60;meta&#62;';
             metaEntry.appendChild(metaEntryTitle);
-    
+
             // Create object from node attibute names and values
             const attrs = item.getAttributeNames().reduce((acc, name) => {
                 return {...acc, [name]: item.getAttribute(name)};
             },{});
-    
+
             // Entry element
             const entryHtml = document.createElement('div');
             entryHtml.classList.add('view-metadata-entry__item');
-    
-    
+
+
             /* -----------------------------------------------
                 Apply attribute(s) name and value if defined
             ----------------------------------------------- */
-    
+
             // Charset
             createBreakdownEntry('charset', attrs.charset, metaEntry, entryHtml);
-    
+
             // Name
             createBreakdownEntry('name', attrs.name, metaEntry, entryHtml);
-    
+
             // Property
             createBreakdownEntry('property', attrs.property, metaEntry, entryHtml);
-    
+
             // Content
             createBreakdownEntry('content', attrs.content, metaEntry, entryHtml);
-    
+
             // Http-equiv
             createBreakdownEntry('http-equiv', attrs.httpEquiv, metaEntry, entryHtml);
-    
+
             // Itemprop
             createBreakdownEntry('itemprop', attrs.itemprop, metaEntry, entryHtml);
         });
@@ -175,7 +175,7 @@
         if (viewMetaEntryElement.length) {
             viewMetaMetaSection.removeAttribute('hidden');
         }
-    
+
         viewMetaEntryElement.forEach((item) => {
             viewMetaMetaSection.appendChild(item);
         });
@@ -190,15 +190,15 @@
 
         if (openGraphEntriesEl.length) {
             openGraphSectionEl.removeAttribute('hidden');
-            
+
             openGraphEntriesEl.forEach((item) => {
                 const ogEntry = item.cloneNode(true);
                 ogEntry.querySelectorAll('.view-metadata-entry__attr-name, .view-metadata-entry__tag').forEach(item => item.remove());
                 ogEntry.querySelectorAll('.view-metadata-entry__item').forEach(item => unwrap(item));
-    
+
                 openGraphSectionEl.appendChild(ogEntry);
             });
-    
+
             // Add class to required properties
             const openGraphRequiredArr = [
                 'og:title',
@@ -206,10 +206,10 @@
                 'og:image',
                 'og:url'
             ];
-    
+
             openGraphRequiredArr.forEach((item) => {
                 const requiredEntryEl = openGraphSectionEl.querySelector(`[data-view-md-item-property="${item}"]`);
-    
+
                 if (requiredEntryEl) {
                     requiredEntryEl
                         .classList
@@ -223,12 +223,12 @@
                     missingList.appendChild(missingEntry);
                 }
             });
-    
+
             // Sort required entries to top of list
             const notRequiredOpenGraphEl = openGraphSectionEl.querySelectorAll('.view-metadata-entry:not(.view-metadata-entry--required)');
             notRequiredOpenGraphEl.forEach(item => openGraphSectionEl.appendChild(item));
         }
-        
+
 
         /* -----------------------------------------------
             Render schema section
@@ -238,11 +238,11 @@
         // Special thanks to John Pavek https://github.com/nhawdge
         function objectToList(obj) {
             var output = '';
-            
+
             for (let key of Object.keys(obj)) {
                 output += `
                     <li class="view-metadata-schema-list__item">
-                        <span class="view-metadata-entry__attr-name">${key}:</span> 
+                        <span class="view-metadata-entry__attr-name">${key}:</span>
                     `;
                 if (obj[key] instanceof Object) {
                     output += `<ul class="view-metadata-schema-list"> ${objectToList(obj[key])}</ul>`;
@@ -262,20 +262,20 @@
             schemaSectionEl.removeAttribute('hidden');
 
             schemaJson.forEach((item) => {
-                
+
                 // Clean up json data because for some reason it's invalid
                 const jsonString = item.innerHTML.toString().trim();
                 const validJson = '{' + jsonString.substring(
                     jsonString.indexOf('{') + 1, 
                     jsonString.lastIndexOf('}')
                 ) + '}';
-    
+
                 const data = JSON.parse(validJson);
 
                 const schemaOut = objectToList(data);
                 const schemaListEl = document.createElement('ul');
 
-                schemaListEl.classList.add('view-metadata-schema-list')
+                schemaListEl.classList.add('view-metadata-schema-list'); 
                 schemaListEl.innerHTML = schemaOut;
                 schemaSectionEl.appendChild(schemaListEl);
             });
@@ -303,16 +303,16 @@
         document.body.appendChild(viewMetadataControls);
 
         const modalShowBtn = viewMetadataControls.querySelector('.view-metadata-modal-btn');
-        
+
         if (param.btnX !== null) {
             modalShowBtn.style.right = 'auto';
             modalShowBtn.style.left = param.btnX;
         }
-        
+
         if (param.btnY !== null) {
             modalShowBtn.style.top = param.btnY;
         }
-        
+
         if (param.btnZ !== null) {
             modalShowBtn.style.zIndex = param.btnZ;
         }
@@ -326,7 +326,7 @@
             document.documentElement.classList.remove('js-view-metadata-modal-showing');
             focusedElementBeforeModal.focus();
         }
-        
+
         const modalCloseBtn = document.querySelector('.view-metadata__close-btn');
         modalCloseBtn.addEventListener('click', () => {
             modalHide();
@@ -343,13 +343,13 @@
         const modalContent = document.querySelectorAll('.view-metadata__content');
         modalEl.addEventListener('mousedown', function (event) {
             let isClickInside = false;
-            
+
             modalContent.forEach((item) => {
                 if (item.contains(event.target)) {
                     isClickInside = true;
                 }
             });
-            
+
             if (!isClickInside && document.documentElement.classList.contains('js-view-metadata-modal-showing')) {
                 modalHide();
             }
@@ -359,13 +359,13 @@
         let focusedElementBeforeModal;
         function modalShow() {
             document.documentElement.classList.add('js-view-metadata-modal-showing');
-            
+
             // Save current focus
             focusedElementBeforeModal = document.activeElement;
 
             // Listen for and trap the keyboard
             modalEl.addEventListener('keydown', trapTabKey);
-            
+
             // Find all focusable children
             let focusableElementsString =`
                 a[href],
@@ -381,20 +381,20 @@
                 [contenteditable],
                 [role="button"]
             `;
-                
+
             let focusableElements = modalEl.querySelectorAll(focusableElementsString);
-            
+
             // Convert NodeList to Array
             focusableElements = Array.prototype.slice.call(focusableElements);
 
             const firstTabStop = focusableElements[0];
             const lastTabStop = focusableElements[focusableElements.length - 1];
-            
+
             // Set initial focus on the modal
             modalEl.focus();
-            
+
             function trapTabKey(event) {
-                
+
                 // Check for TAB key press
                 if (event.keyCode === 9) {
 
@@ -421,7 +421,7 @@
             Make div(s) with role=button act like an
             actual button for a11y reasons
         ----------------------------------------------- */
-        
+
         document.querySelectorAll('.view-metadata__close-btn, .view-metadata-modal-btn').forEach((item) => {
             item.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter' || event.code === 'Space') {
@@ -431,7 +431,10 @@
             });
         });
     }
+
+    // javascript:var v = '1.2.3'; var s = document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src=`https://cdn.jsdelivr.net/gh/marshallcrosby/view-metadata@${v}/dist/js/view-metadata.min.js`;void(0);s.addEventListener('load',function(){document.querySelector('.view-metadata-modal-btn').click()});
 })();
+
 
 
 
