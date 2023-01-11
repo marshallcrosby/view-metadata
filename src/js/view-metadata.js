@@ -1,32 +1,18 @@
 /*!
-    * View metadata v1.2.0
+    * View metadata v1.2.1
     * Easy to implement tool that displays a pages metadata.
     *
     * Copyright 2021-2022 Marshall Crosby
     * https://marshallcrosby.com
 */
 
-/*
-    TODO:
-        Add open graph checking
-            Basic (required):
-                • og:title
-                • og:type
-                • og:image
-                • og:url
-            Optional:
-                • og:audio
-                • og:description
-                • og:determiner
-                • og:locale
-                • og:locale:alternate
-                • og:site_name
-                • og:video
-*/
-
-
 (function() {
     'use strict';
+
+
+    /* -----------------------------------------------
+        Functions and methods
+    ----------------------------------------------- */
 
     // Set multiple attributes on an element
     Element.prototype.setAttributes = function (attrs) {
@@ -67,7 +53,11 @@
         wrapper.parentNode.replaceChild(docFrag, wrapper);
     }
 
-    // Params
+
+    /* -----------------------------------------------
+        Params
+    ----------------------------------------------- */
+
     const scriptLinkage = document.getElementById('view-metadata-js') || document.querySelector('script[src*=view-metadata]');
     const param = {
         btnX: null,
@@ -86,10 +76,10 @@
     
     if (metaElements) {
 
-        //
-        // Create style tag to dump styles into for the metadata modal
-        //
-        
+        /* -----------------------------------------------
+            Styling
+        ----------------------------------------------- */
+
         const textStyle = document.createElement('style');
         textStyle.setAttribute('id', 'viewMetaDataStyle');
 
@@ -103,10 +93,9 @@
         document.head.appendChild(textStyle);
 
 
-
-        //
-        // Setup modal markup
-        //
+        /* -----------------------------------------------
+            Setup modal
+        ----------------------------------------------- */
 
         const modalEl = document.createElement('div');
         modalEl.classList.add('view-metadata');
@@ -156,7 +145,7 @@
     
     
             /* -----------------------------------------------
-            Apply attibute(s) name and value if defined
+                Apply attribute(s) name and value if defined
             ----------------------------------------------- */
     
             // Charset
@@ -191,22 +180,9 @@
         });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //
-        // Render entries in the open graph section
-        //
+        /* -----------------------------------------------
+            Render entries in the open graph section
+        ----------------------------------------------- */
 
         const openGraphSectionEl = viewMetaModalBody.querySelector('.view-metadata__open-graph-section');
         const openGraphEntriesEl = viewMetaModalBody.querySelectorAll('.view-metadata-entry[data-view-md-item-property*="og:"]');
@@ -253,21 +229,29 @@
         }
         
 
+        /* -----------------------------------------------
+            Render schema section
+        ----------------------------------------------- */
 
+        // Parse json to html ul
+        function objectToList(obj) {
+            var output = '';
+            
+            for (let key of Object.keys(obj)) {
+                output += `
+                    <li class="view-metadata-schema-list__item">
+                        <span class="view-metadata-entry__attr-name">${key}:</span> 
+                    `;
+                if (obj[key] instanceof Object) {
+                    output += `<ul class="view-metadata-schema-list"> ${objectToList(obj[key])}</ul>`;
+                } else {
+                    output += `<span class="view-metadata-entry__attr-value">${obj[key]}</span>`;
+                }
+            }
 
-
-
-
-
-
-
-
-
-
-
-        //
-        // Schema section
-        //
+            output += '</li>';
+            return output;
+        }
 
         const schemaJson = document.querySelectorAll('[type="application/ld+json"]');
 
@@ -285,80 +269,20 @@
                 ) + '}';
     
                 const data = JSON.parse(validJson);
-                
-                Object.keys(data).forEach(function(key) {
-    
-                    const dataValue = (data[key].toString() === '[object Object]') ? '' : data[key];
-    
-                    // Render key and value
-                    const levelOneEntry = document.createElement('div');
-                    levelOneEntry.classList.add('view-metadata-entry');
-                    levelOneEntry.innerHTML = /* html */`
-                        <div class="view-metadata-entry__item">
-                            <div class="view-metadata-entry__attr-name">${key}</div>
-                            <div class="view-metadata-entry__attr-value">${dataValue}</div>
-                        </div>
-                    `;
-                    schemaSectionEl.appendChild(levelOneEntry);
-    
-                    if (data[key] instanceof Object) {
-                        let nestedData = JSON.stringify(data[key]);
-                        nestedData = JSON.parse(nestedData);
-    
-                        Object.keys(nestedData).forEach(function(key) {
-    
-                            const dataValue = (nestedData[key].toString() === '[object Object]') ? '' : nestedData[key];
-                            
-                            // Render nested key(s) and value(s)
-                            const levelTwoEntry = document.createElement('div');
-                            levelTwoEntry.classList.add('view-metadata-entry');
-                            levelTwoEntry.innerHTML = /* html */`
-                                <div class="view-metadata-entry__item">
-                                    <div class="view-metadata-entry__attr-name">${key}</div>
-                                    <div class="view-metadata-entry__attr-value">${dataValue}</div>
-                                </div>
-                            `;
-                            levelOneEntry.appendChild(levelTwoEntry);
-    
-                            if (nestedData[key] instanceof Object) {
-                                let nestedDataData = JSON.stringify(nestedData[key]);
-                                nestedDataData = JSON.parse(nestedDataData);
-            
-                                Object.keys(nestedDataData).forEach(function(key) {
-    
-                                    // Render nested nested key(s) and value(s)
-                                    const levelThreeEntry = document.createElement('div');
-                                    levelThreeEntry.classList.add('view-metadata-entry');
-                                    levelThreeEntry.innerHTML = /* html */`
-                                        <div class="view-metadata-entry__item">
-                                            <div class="view-metadata-entry__attr-name">${key}</div>
-                                            <div class="view-metadata-entry__attr-value">${nestedDataData[key]}</div>
-                                        </div>
-                                    `;
-                                    levelTwoEntry.appendChild(levelThreeEntry);
-                                });
-                            }                        
-                        });
-                    }
-                });
+
+                const schemaOut = objectToList(data);
+                const schemaListEl = document.createElement('ul');
+
+                schemaListEl.classList.add('view-metadata-schema-list')
+                schemaListEl.innerHTML = schemaOut;
+                schemaSectionEl.appendChild(schemaListEl);
             });
         }
 
 
-
-
-
-
-
-
-
-
-
-    
-    
-        //
-        // Code view
-        //
+        /* -----------------------------------------------
+            Render code view
+        ----------------------------------------------- */
 
         metaElements.forEach((item) => {
             const metaEntryCode = document.createElement('div');
@@ -369,9 +293,9 @@
         });
 
 
-        //
-        // Modal button
-        //
+        /* -----------------------------------------------
+            Modal button
+        ----------------------------------------------- */
 
         const viewMetadataControls = document.querySelector('.view-metadata-overlay-controls');
         document.body.appendChild(viewMetadataControls);
@@ -491,9 +415,10 @@
         }
 
 
-        //
-        // Make div(s) with role=button act like an actual button for a11y reasons
-        //
+        /* -----------------------------------------------
+            Make div(s) with role=button act like an
+            actual button for a11y reasons
+        ----------------------------------------------- */
         
         document.querySelectorAll('.view-metadata__close-btn, .view-metadata-modal-btn').forEach((item) => {
             item.addEventListener('keydown', function (event) {

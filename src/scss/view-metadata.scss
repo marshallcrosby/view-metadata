@@ -149,7 +149,7 @@
         font-weight: bold;
 
         &[aria-level="3"] {
-            font-size: 14px;
+            font-size: 15px;
         }
         
         &[aria-level="4"] {
@@ -247,6 +247,25 @@
             flex: 0 0 120px;
             width: 120px;
         }
+    }
+
+    .view-metadata-schema-list {
+        list-style-type: none;
+        font-size: var(--vmd-body-size);
+        padding-left: 15px;
+
+        &:not(:last-child) {
+            margin-bottom: 30px;
+        }
+
+        .view-metadata-schema-list {
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+    }
+
+    .view-metadata-schema-list__item {
+        margin-bottom: 10px;
     }
 
     .view-metadata__open-graph-section {
