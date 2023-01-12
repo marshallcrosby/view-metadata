@@ -444,7 +444,7 @@
         });
     }
 
-    // javascript:var v = '1.2.3'; var s = document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src=`https://cdn.jsdelivr.net/gh/marshallcrosby/view-metadata@${v}/dist/js/view-metadata.min.js`;void(0);s.addEventListener('load',function(){document.querySelector('.view-metadata-modal-btn').click()});
+    // javascript:var v = '1.2.5'; var el = document.getElementById('viewMetadataModal'); if (!el) {var s = document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src=`https://cdn.jsdelivr.net/gh/marshallcrosby/view-metadata@${v}/dist/js/view-metadata.min.js`;void(0);s.addEventListener('load',function(){document.querySelector('.view-metadata-modal-btn').click()})} else {document.querySelector('.view-metadata-modal-btn').click()};
 })();
 
 
