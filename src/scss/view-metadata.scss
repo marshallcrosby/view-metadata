@@ -7,6 +7,7 @@
     // Spacing and alignment
     --vmd-spacing-outer-modal: 10px;
     --vmd-border-radius-common: 10px;
+    --vmd-border-radius-small: 4px;
     --vmd-modal-z: 1000000;
     --vmd-body-size: 13px;
 
@@ -15,6 +16,7 @@
     --vmd-color-text: #333;
     --vmd-color-gray-100: #ededed;
     --vmd-color-gray-200: #{darken(#ededed, 6%)};
+    --vmd-chevron-down: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
 }
 
 .view-metadata-styled-scrollbar {
@@ -128,6 +130,35 @@
         height: 490px;
         padding: 15px;
     }
+
+    // .view-metadata__showonly {
+    //     margin-bottom: var(--vmb-space-common);
+    // }
+    
+    // .view-metadata__label {
+    //     font-size: var(--vmb-body-size);
+    //     margin-bottom: 6px;
+    //     display: block;
+    // }
+    
+    // .view-metadata__select {
+    //     display: block;
+    //     width: 100%;
+    //     padding: 7.5px 33px 7.5px 10px;
+    //     -moz-padding-start: calc(0.75rem - 3px);
+    //     font-weight: 400;
+    //     line-height: 1;
+    //     background-color: #fff;
+    //     background-image: var(--vmd-chevron-down);
+    //     background-repeat: no-repeat;
+    //     background-position: right 8px center;
+    //     background-size: 16px 12px;
+    //     border: 1px solid var(--vmd-color-border);
+    //     border-radius: var(--vmd-border-radius-small);
+    //     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+    //     appearance: none;
+    //     font-size: var(--vmb-body-size);
+    // }
 
     .view-metadata__header {
         display: flex;
@@ -268,6 +299,25 @@
         margin-bottom: 10px;
     }
 
+    .view-metadata__schema-button {
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 14px;
+        background-color: var(--vmd-color-gray-100);
+        border-radius: var(--vmd-border-radius-small);
+        font-size: var(--vmd-body-size);
+        margin-left: 20px;
+        font-weight: normal;
+
+        svg {
+            width: 10px;
+            height: auto;
+            margin-left: 5px;
+        }
+    }
+
     .view-metadata__open-graph-section {
         .view-metadata-entry {
             flex-direction: row;
@@ -293,6 +343,12 @@
                 font-weight: bold;
             }
         }
+    }
+
+    .view-metadata__open-graph-image {
+        width: 100%;
+        max-width: 100px;
+        height: auto;
     }
 
     .view-metadata-entry {

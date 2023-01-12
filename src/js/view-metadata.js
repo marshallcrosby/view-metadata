@@ -1,5 +1,5 @@
 /*!
-    * View metadata v1.2.4
+    * View metadata v1.2.5
     * Easy to implement tool that displays a pages metadata.
     *
     * Copyright 2021-2022 Blend Interactive
@@ -216,7 +216,7 @@
                 } else {
                     const missingEntry = document.createElement('strong');
                     const missingList = openGraphSectionEl.querySelector('.view-metadata__missing');
-                    
+
                     missingEntry.innerHTML = `<span style="color: red;">${item}</span>`;
                     missingList.removeAttribute('hidden');
                     missingList.appendChild(missingEntry);
@@ -226,6 +226,10 @@
             // Sort required entries to top of list
             const notRequiredOpenGraphEl = openGraphSectionEl.querySelectorAll('.view-metadata-entry:not(.view-metadata-entry--required)');
             notRequiredOpenGraphEl.forEach(item => openGraphSectionEl.appendChild(item));
+
+            // Display og:image
+            // const ogImage = openGraphSectionEl.querySelector('.view-metadata__open-graph-image');
+            // ogImage.src = document.head.querySelector('meta[property="og:image"]').getAttribute('content');
         }
 
 
@@ -234,7 +238,7 @@
         ----------------------------------------------- */
 
         // Parse json to html ul
-        // Special thanks to John Pavek https://github.com/nhawdge
+        // Special thanks to the js G.O.A.T. John Pavek https://github.com/nhawdge
         function objectToList(obj) {
             var output = '';
 
@@ -279,6 +283,14 @@
                 schemaSectionEl.appendChild(schemaListEl);
             });
         }
+
+        const schemaValidateButton = viewMetaModalBody.querySelector('.view-metadata__schema-button');
+        const schemaValidateUrl = `https://validator.schema.org/#url=${window.location.href}`;
+        // const schemaValidateUrl = `https://validator.schema.org/#url=https://blendinteractive.com`;
+
+        schemaValidateButton.addEventListener('click', function () {
+            window.open(schemaValidateUrl, '_blank');
+        });
 
 
         /* -----------------------------------------------
@@ -421,7 +433,7 @@
             actual button for a11y reasons
         ----------------------------------------------- */
 
-        document.querySelectorAll('.view-metadata__close-btn, .view-metadata-modal-btn').forEach((item) => {
+        document.querySelectorAll('.view-metadata__close-btn, .view-metadata-modal-btn, .view-metadata__schema-button').forEach((item) => {
             item.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter' || event.code === 'Space') {
                     event.preventDefault();
