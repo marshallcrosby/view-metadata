@@ -1,5 +1,5 @@
 /*!
-    * View metadata v1.2.5
+    * View metadata v1.2.6
     * Easy to implement tool that displays a pages metadata.
     *
     * Copyright 2021-2022 Blend Interactive
