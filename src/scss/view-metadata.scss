@@ -300,6 +300,7 @@
         margin-bottom: 10px;
     }
 
+    .view-metadata__rich-results-button,
     .view-metadata__schema-button {
         cursor: pointer;
         display: inline-flex;
@@ -309,8 +310,9 @@
         background-color: var(--vmd-color-gray-100);
         border-radius: var(--vmd-border-radius-small);
         font-size: var(--vmd-body-size);
-        margin-left: 20px;
+        margin: 2.5px 10px 2.5px 0;
         font-weight: normal;
+        height: 26px;
 
         svg {
             width: 10px;

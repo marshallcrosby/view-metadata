@@ -292,6 +292,14 @@
             window.open(schemaValidateUrl, '_blank');
         });
 
+        const richResultsButton = viewMetaModalBody.querySelector('.view-metadata__rich-results-button');
+        const richResultsUrl = `https://search.google.com/test/rich-results?utm_campaign=sdtt&utm_medium=code&url=${window.location.href}`;
+        // const richResultsUrl = `https://search.google.com/test/rich-results?utm_campaign=sdtt&utm_medium=code&url=https://blendinteractive.com`;
+
+        richResultsButton.addEventListener('click', function () {
+            window.open(richResultsUrl, '_blank');
+        });
+
 
         /* -----------------------------------------------
             Render code view
