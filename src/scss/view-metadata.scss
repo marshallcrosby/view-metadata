@@ -132,34 +132,47 @@
         padding: 15px;
     }
 
-    // .view-metadata__showonly {
-    //     margin-bottom: var(--vmb-space-common);
-    // }
+    .view-metadata__showonly {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+
+        .view-metadata__label {
+            margin-bottom: 0;
+        }
+
+        .view-metadata__select {
+            flex: 0 0 auto;
+            width: auto;
+            min-width: 200px;
+            margin-left: 10px;
+        }
+    }
     
-    // .view-metadata__label {
-    //     font-size: var(--vmb-body-size);
-    //     margin-bottom: 6px;
-    //     display: block;
-    // }
+    .view-metadata__label {
+        font-size: var(--vmd-body-size);
+        margin-bottom: 6px;
+        display: block;
+    }
     
-    // .view-metadata__select {
-    //     display: block;
-    //     width: 100%;
-    //     padding: 7.5px 33px 7.5px 10px;
-    //     -moz-padding-start: calc(0.75rem - 3px);
-    //     font-weight: 400;
-    //     line-height: 1;
-    //     background-color: #fff;
-    //     background-image: var(--vmd-chevron-down);
-    //     background-repeat: no-repeat;
-    //     background-position: right 8px center;
-    //     background-size: 16px 12px;
-    //     border: 1px solid var(--vmd-color-border);
-    //     border-radius: var(--vmd-border-radius-small);
-    //     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    //     appearance: none;
-    //     font-size: var(--vmb-body-size);
-    // }
+    .view-metadata__select {
+        display: block;
+        width: 100%;
+        padding: 7.5px 33px 7.5px 10px;
+        -moz-padding-start: calc(0.75rem - 3px);
+        font-weight: 400;
+        line-height: 1;
+        background-color: #fff;
+        background-image: var(--vmd-chevron-down);
+        background-repeat: no-repeat;
+        background-position: right 8px center;
+        background-size: 16px 12px;
+        border: 1px solid var(--vmd-color-border);
+        border-radius: var(--vmd-border-radius-small);
+        transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+        appearance: none;
+        font-size: var(--vmd-body-size);
+    }
 
     .view-metadata__header {
         display: flex;
@@ -247,11 +260,12 @@
 
     .view-metadata__section {
         margin-bottom: 25px;
+        border-bottom: 1px solid var(--vmd-color-border);
+        padding-bottom: 25px;
     }
     
     .view-metadata__hr {
         height: 1px;
-        border-top: 1px solid var(--vmd-color-border);
         margin: 0 0 20px 0;
     }
 
@@ -285,6 +299,7 @@
         list-style-type: none;
         font-size: var(--vmd-body-size);
         padding-left: 15px;
+        margin-bottom: 0;
 
         &:not(:last-child) {
             margin-bottom: 30px;

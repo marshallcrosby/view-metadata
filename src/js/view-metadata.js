@@ -1,8 +1,8 @@
 /*!
-    * View metadata v1.2.6
+    * View metadata v1.2.8
     * Easy to implement tool that displays a pages metadata.
     *
-    * Copyright 2021-2022 Blend Interactive
+    * Copyright 2021-2023 Blend Interactive
     * https://blendinteractive.com
 */
 
@@ -173,6 +173,8 @@
 
         if (viewMetaEntryElement.length) {
             viewMetaMetaSection.removeAttribute('hidden');
+        } else {
+            viewMetaMetaSection.remove();
         }
 
         viewMetaEntryElement.forEach((item) => {
@@ -230,6 +232,8 @@
             // Display og:image
             // const ogImage = openGraphSectionEl.querySelector('.view-metadata__open-graph-image');
             // ogImage.src = document.head.querySelector('meta[property="og:image"]').getAttribute('content');
+        } else {
+            openGraphSectionEl.remove();
         }
 
 
@@ -259,9 +263,9 @@
         }
 
         const schemaJson = document.querySelectorAll('[type="application/ld+json"]');
+        const schemaSectionEl = viewMetaModalBody.querySelector('.view-metadata__schema-section');
 
         if (schemaJson.length) {
-            const schemaSectionEl = viewMetaModalBody.querySelector('.view-metadata__schema-section');
             schemaSectionEl.removeAttribute('hidden');
 
             schemaJson.forEach((item) => {
@@ -282,36 +286,39 @@
                 schemaListEl.innerHTML = schemaOut;
                 schemaSectionEl.appendChild(schemaListEl);
             });
+            const schemaValidateButton = viewMetaModalBody.querySelector('.view-metadata__schema-button');
+            const schemaValidateUrl = `https://validator.schema.org/#url=${window.location.href}`;
+            // const schemaValidateUrl = `https://validator.schema.org/#url=https://blendinteractive.com`;
+
+            schemaValidateButton.addEventListener('click', function () {
+                window.open(schemaValidateUrl, '_blank');
+            });
+
+            const richResultsButton = viewMetaModalBody.querySelector('.view-metadata__rich-results-button');
+            const richResultsUrl = `https://search.google.com/test/rich-results?utm_campaign=sdtt&utm_medium=code&url=${window.location.href}`;
+            // const richResultsUrl = `https://search.google.com/test/rich-results?utm_campaign=sdtt&utm_medium=code&url=https://blendinteractive.com`;
+
+            richResultsButton.addEventListener('click', function () {
+                window.open(richResultsUrl, '_blank');
+            });
+
+        } else {
+            schemaSectionEl.remove();
         }
 
-        const schemaValidateButton = viewMetaModalBody.querySelector('.view-metadata__schema-button');
-        const schemaValidateUrl = `https://validator.schema.org/#url=${window.location.href}`;
-        // const schemaValidateUrl = `https://validator.schema.org/#url=https://blendinteractive.com`;
-
-        schemaValidateButton.addEventListener('click', function () {
-            window.open(schemaValidateUrl, '_blank');
-        });
-
-        const richResultsButton = viewMetaModalBody.querySelector('.view-metadata__rich-results-button');
-        const richResultsUrl = `https://search.google.com/test/rich-results?utm_campaign=sdtt&utm_medium=code&url=${window.location.href}`;
-        // const richResultsUrl = `https://search.google.com/test/rich-results?utm_campaign=sdtt&utm_medium=code&url=https://blendinteractive.com`;
-
-        richResultsButton.addEventListener('click', function () {
-            window.open(richResultsUrl, '_blank');
-        });
 
 
         /* -----------------------------------------------
             Render code view
         ----------------------------------------------- */
 
-        metaElements.forEach((item) => {
-            const metaEntryCode = document.createElement('div');
-            metaEntryCode.classList.add('view-metadata-entry');
-            metaEntryCode.classList.add('view-metadata-entry--code');
-            metaEntryCode.innerText = item.outerHTML.toString();
-            viewMetaModalBody.querySelector('.view-metadata__code-view-section').appendChild(metaEntryCode);
-        });
+        // metaElements.forEach((item) => {
+        //     const metaEntryCode = document.createElement('div');
+        //     metaEntryCode.classList.add('view-metadata-entry');
+        //     metaEntryCode.classList.add('view-metadata-entry--code');
+        //     metaEntryCode.innerText = item.outerHTML.toString();
+        //     viewMetaModalBody.querySelector('.view-metadata__code-view-section').appendChild(metaEntryCode);
+        // });
 
 
         /* -----------------------------------------------
@@ -449,6 +456,42 @@
                 }
             });
         });
+
+
+        /* -----------------------------------------------
+            Sort
+        ----------------------------------------------- */
+
+        const showOnlyEl = viewMetaModalBody.querySelector('.view-metadata__showonly .view-metadata__select');
+        const showOnlySections = viewMetaModalBody.querySelectorAll('.view-metadata__section');
+
+        if (showOnlySections.length > 1) {
+            showOnlySections.forEach((item) => {
+                const optionText = item.querySelector('.view-metadata__title');
+                showOnlyEl.innerHTML += `<option value="${item.classList[1]}">${optionText.innerText}</option>`;
+            });
+
+            showOnlyEl.addEventListener('change', function(e) {
+                showSection(this.value);
+            });
+
+            function showSection(val) {
+                if (val !== '') {
+                    viewMetaModalBody
+                        .querySelectorAll('.view-metadata__section')
+                        .forEach(item => item.hidden = true);
+                    viewMetaModalBody.querySelector(`.${val}`).removeAttribute('hidden');
+                } else {
+                    viewMetaModalBody
+                        .querySelectorAll('.view-metadata__section')
+                        .forEach(item => item.hidden = false);
+                }
+            }
+        } else {
+            showOnlyEl
+                .closest('.view-metadata__showonly')
+                .remove();
+        }
     }
 
     // javascript:var v = '1.2.5'; var el = document.getElementById('viewMetadataModal'); if (!el) {var s = document.createElement('script');s.type='text/javascript';document.body.appendChild(s);s.src=`https://cdn.jsdelivr.net/gh/marshallcrosby/view-metadata@${v}/dist/js/view-metadata.min.js`;void(0);s.addEventListener('load',function(){document.querySelector('.view-metadata-modal-btn').click()})} else {document.querySelector('.view-metadata-modal-btn').click()};

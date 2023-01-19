@@ -11,12 +11,12 @@
         </div>
     </div>
     <div class="view-metadata__body view-metadata-styled-scrollbar">
-        {# <div class="view-metadata__showonly">
-            <label class="view-metadata__label" for="viewMetadataShowOnlyLabel">Showing:</label>
-            <select class="view-metadata__select" name="sort-by" id="viewMetadataShowOnlyLabel">
-                <option value="showAll">All</option>
+        <div class="view-metadata__showonly">
+            <label class="view-metadata__label" for="viewMetadataShowOnlySelect">Showing:</label>
+            <select class="view-metadata__select" name="sort-by" id="viewMetadataShowOnlySelect">
+                <option value="">All</option>
             </select>
-        </div> #}
+        </div>
         
         <section class="view-metadata__section view-metadata__breakdown-view-section" hidden>
             <div class="view-metadata__section-header">
@@ -24,7 +24,6 @@
             </div>
         </section>
 
-        <div class="view-metadata__hr"></div>
         
         <section class="view-metadata__section view-metadata__open-graph-section" hidden>
             <div class="view-metadata__section-header">
@@ -44,7 +43,6 @@
             <br>
         </section>
 
-        <div class="view-metadata__hr"></div>
         
         <section class="view-metadata__section view-metadata__schema-section" hidden>
             <div class="view-metadata__section-header">
@@ -52,7 +50,7 @@
                     Schema
                 </div>
                 <div class="view-metadata__header-controls">
-                    <strong>Validate:</strong> &nbsp;&nbsp;
+                    Validate:&nbsp;&nbsp;
                     <div class="view-metadata__schema-button" role="button" tabindex="0">
                         Schema.org
                         <svg aria-label="New window" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
@@ -72,13 +70,12 @@
             </div>
         </section>
 
-        <div class="view-metadata__hr"></div>
         
-        <section class="view-metadata__section view-metadata__code-view-section" hidden>
+        {# <section class="view-metadata__section view-metadata__code-view-section" hidden>
             <div class="view-metadata__section-header">
                 <div class="view-metadata__title" role="heading" aria-level="3">Code view</div>
             </div>
-        </section>
+        </section> #}
     </div>
 </div>
 
