@@ -1,5 +1,5 @@
 /*!
-    * View metadata v1.2.8
+    * View metadata v1.2.9
     * Easy to implement tool that displays a pages metadata.
     *
     * Copyright 2021-2023 Blend Interactive
@@ -229,9 +229,24 @@
             const notRequiredOpenGraphEl = openGraphSectionEl.querySelectorAll('.view-metadata-entry:not(.view-metadata-entry--required)');
             notRequiredOpenGraphEl.forEach(item => openGraphSectionEl.appendChild(item));
 
-            // Display og:image
-            // const ogImage = openGraphSectionEl.querySelector('.view-metadata__open-graph-image');
-            // ogImage.src = document.head.querySelector('meta[property="og:image"]').getAttribute('content');
+            // Render og:image
+            const ogImageEntry = openGraphSectionEl.querySelector('[data-view-md-item-property="og:image"]');
+            if (ogImageEntry) {
+                const ogImageValueEl = ogImageEntry.querySelectorAll('.view-metadata-entry__attr-value');
+                const ogImageImgEl = document.createElement('div');
+                ogImageImgEl.setAttributes({
+                    'tabindex': '0',
+                    'role': 'link',
+                    'aria-label': 'Open image in new window'
+                })
+                ogImageImgEl.innerHTML = `<img src="${ogImageValueEl[1].innerText}">`;
+                ogImageImgEl.classList.add('view-metadata__open-graph-image');
+                ogImageValueEl[0].appendChild(ogImageImgEl);
+
+                ogImageImgEl.addEventListener('click', function () {
+                    window.open(ogImageValueEl[1].innerText, '_blank');
+                });
+            }
         } else {
             openGraphSectionEl.remove();
         }
@@ -448,7 +463,7 @@
             actual button for a11y reasons
         ----------------------------------------------- */
 
-        document.querySelectorAll('.view-metadata__close-btn, .view-metadata-modal-btn, .view-metadata__schema-button').forEach((item) => {
+        modalEl.querySelectorAll('.view-metadata__close-btn, .view-metadata-modal-btn, .view-metadata__schema-button, .view-metadata__open-graph-image').forEach((item) => {
             item.addEventListener('keydown', function (event) {
                 if (event.key === 'Enter' || event.code === 'Space') {
                     event.preventDefault();

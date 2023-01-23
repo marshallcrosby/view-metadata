@@ -16,7 +16,8 @@
     --vmd-color-text: #333;
     --vmd-color-gray-100: #ededed;
     --vmd-color-gray-200: #{darken(#ededed, 6%)};
-    --vmd-chevron-down: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    --vmd-chevron-down-icon: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+    --vmd-new-window-icon: url("data:image/svg+xml,%3Csvg aria-label='New window' xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath d='M432 320H400a16 16 0 0 0-16 16V448H64V128H208a16 16 0 0 0 16-16V80a16 16 0 0 0-16-16H48A48 48 0 0 0 0 112V464a48 48 0 0 0 48 48H400a48 48 0 0 0 48-48V336A16 16 0 0 0 432 320ZM488 0h-128c-21.37 0-32.05 25.91-17 41l35.73 35.73L135 320.37a24 24 0 0 0 0 34L157.67 377a24 24 0 0 0 34 0L435.28 133.32 471 169c15 15 41 4.5 41-17V24A24 24 0 0 0 488 0Z'/%3E%3C/svg%3E");
 }
 
 .view-metadata-styled-scrollbar {
@@ -163,7 +164,7 @@
         font-weight: 400;
         line-height: 1;
         background-color: #fff;
-        background-image: var(--vmd-chevron-down);
+        background-image: var(--vmd-chevron-down-icon);
         background-repeat: no-repeat;
         background-position: right 8px center;
         background-size: 16px 12px;
@@ -355,6 +356,8 @@
         }
 
         .view-metadata-entry__attr-value {
+            position: relative;
+
             &:first-child {
                 flex: 0 0 120px;
                 width: 120px;
@@ -364,9 +367,41 @@
     }
 
     .view-metadata__open-graph-image {
-        width: 100%;
-        max-width: 100px;
-        height: auto;
+        position: absolute;
+        width: 36px;
+        height: 25px;
+        right: 15px;
+        top: calc(50% - (25px / 2));
+        cursor: pointer;
+        border-radius: 3px;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        &:after {
+            position: absolute;
+            content: '';
+            width: 13px;
+            height: 13px;
+            background: var(--vmd-new-window-icon);
+            background-color: rgba(#fff, .75);
+            background-repeat: no-repeat;
+            background-size: 10px auto;
+            background-position: 2px 1px;
+            bottom: 1px;
+            right: 1px;
+            border-bottom-right-radius: 3px;
+        }
+
+        &:hover {
+            &:after {
+                background-color: #fff;
+            }
+        }
     }
 
     .view-metadata-entry {
