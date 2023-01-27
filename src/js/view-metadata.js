@@ -1,5 +1,5 @@
 /*!
-    * View metadata v1.3.0
+    * View metadata v1.3.2
     * Easy to implement tool that displays a pages metadata.
     *
     * Copyright 2021-2023 Blend Interactive
@@ -242,6 +242,11 @@
                 ogImageImgEl.innerHTML = `<img src="${ogImageValueEl[1].innerText}">`;
                 ogImageImgEl.classList.add('view-metadata__open-graph-image');
                 ogImageValueEl[0].appendChild(ogImageImgEl);
+
+                // const ogImagePreview = document.createElement('div');
+                // ogImagePreview.classList.add('view-metadata__open-graph-image-preview');
+                // ogImagePreview.appendChild(ogImageImgEl.children[0].cloneNode());
+                // ogImageValueEl[0].appendChild(ogImagePreview);
 
                 ogImageImgEl.addEventListener('click', function () {
                     window.open(ogImageValueEl[1].innerText, '_blank');

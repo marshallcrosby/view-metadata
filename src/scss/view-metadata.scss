@@ -396,11 +396,26 @@
             border-bottom-right-radius: 2px;
         }
 
-        &:hover {
+        &:hover,
+        &:active {
             &:after {
                 background-color: #fff;
             }
+
+            + .view-metadata__open-graph-image-preview {
+                display: block;
+            }
         }
+    }
+
+    .view-metadata__open-graph-image-preview {
+        display: none;
+        position: absolute;
+        top: 0;
+        left: 100%;
+        width: 500px;
+        height: auto;
+        z-index: 2;
     }
 
     .view-metadata-entry {
