@@ -1,5 +1,5 @@
 /*!
-    * View metadata v1.3.2
+    * View metadata v1.3.3
     * Easy to implement tool that displays a pages metadata.
     *
     * Copyright 2021-2023 Blend Interactive
@@ -21,13 +21,24 @@
         }
     };
 
+    Element.prototype.wrapInTag = function (wrapperElement, elClass) {
+        wrapperElement = document.createElement(wrapperElement);
+        
+        if (elClass !== null) {
+            wrapperElement.classList.add(elClass);
+        }
+
+        this.parentNode.appendChild(wrapperElement);
+        return wrapperElement.appendChild(this);
+    };
+
     // Parse meta entry data into html element
     function createBreakdownEntry(attrName, attr, parent, cloneThisNode) {
         if (attr) {
             const entry = cloneThisNode.cloneNode(true);
 
             entry.innerHTML = /* html */`
-                <div class="view-metadata-entry__attr-name">${attrName}</div>
+                <div class="view-metadata-entry__attr-name">${attrName.toString()}</div>
                 <div class="view-metadata-entry__attr-value">${attr.toString()}</div>
             `;
             parent.appendChild(entry);
@@ -157,11 +168,12 @@
             // Property
             createBreakdownEntry('property', attrs.property, metaEntry, entryHtml);
 
+            // Http-equiv
+            createBreakdownEntry('http-equiv', item.getAttribute('http-equiv'), metaEntry, entryHtml);
+
             // Content
             createBreakdownEntry('content', attrs.content, metaEntry, entryHtml);
 
-            // Http-equiv
-            createBreakdownEntry('http-equiv', attrs.httpEquiv, metaEntry, entryHtml);
 
             // Itemprop
             createBreakdownEntry('itemprop', attrs.itemprop, metaEntry, entryHtml);
@@ -326,6 +338,36 @@
             schemaSectionEl.remove();
         }
 
+
+        /* -----------------------------------------------
+            Canonical
+        ----------------------------------------------- */
+
+        const canonicalTag = document.querySelectorAll('link[rel="canonical"]');
+        const canonicalSection = viewMetaModalBody.querySelector('.view-metadata__canonical-section');
+
+        if (canonicalTag.length) {
+            canonicalTag.forEach((item, index) => {
+                
+                // Entry element
+                const entryHtml = document.createElement('div');
+                entryHtml.classList.add('view-metadata-entry__item');
+
+                createBreakdownEntry('href', item.href, canonicalSection, entryHtml);
+
+                const canEntry = canonicalSection.querySelectorAll('.view-metadata-entry__item')[index];
+                canEntry.wrapInTag('div', 'view-metadata-entry');
+
+                const canWrapper = canonicalSection.querySelectorAll('.view-metadata-entry')[index];
+                
+                const linkEntryTitle = document.createElement('span');
+                linkEntryTitle.classList.add('view-metadata-entry__tag');
+                linkEntryTitle.innerHTML = '&#60;link&#62;';
+                canWrapper.prepend(linkEntryTitle);
+            });
+        } else {
+            canonicalSection.remove();
+        }
 
 
         /* -----------------------------------------------
